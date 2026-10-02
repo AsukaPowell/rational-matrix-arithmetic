@@ -50,3 +50,10 @@ Supported operations:
 ## Edge case to watch
 
 `determinant()` returns `Fraction(0)` for singular matrices, but `inverse()` raises `SingularMatrixError`. The two methods treat singularity differently because a zero determinant is a valid result, while an inverse does not exist. Call `determinant()` first if you need to check before inverting.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
